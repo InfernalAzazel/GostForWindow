@@ -6,10 +6,13 @@
 fn greet(name: &str) -> String {
     format!("Hello, {}! You've been greeted from Rust!", name)
 }
-
+#[tauri::command]
+fn trigger_frontend_function(window: tauri::Window<tauri::Wry>) {
+  window.emit("myEvent", Some("Hello, world!")).expect("failed to emit");
+}
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![greet])
+        .invoke_handler(tauri::generate_handler![greet, trigger_frontend_function])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

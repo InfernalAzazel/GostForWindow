@@ -1,5 +1,5 @@
 <template>
-    <el-table :data="tableData" style="width: 100%">
+    <el-table :data="proxy" style="width: 100%">
         <el-table-column prop="id" label="ID" />
         <el-table-column prop="name" label="Name" />
         <el-table-column fixed="right" label="Operations" >
@@ -14,18 +14,6 @@
 </template>
 
 <script lang="ts" setup>
-const handleClick = () => {
-    console.log('click')
-}
-
-const tableData = [
-    {
-        id: 1,
-        name: '美国',
-    },
-    {
-        id: 2,
-        name: '日本',
-    },
-]
+import {useProxyStore} from "../store";
+const {proxy} = useProxyStore()!
 </script>
