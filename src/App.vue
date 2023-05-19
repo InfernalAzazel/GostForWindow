@@ -1,8 +1,9 @@
 <template>
-    <router-view></router-view>
+    <router-view />
 </template>
 <script lang="ts" setup>
-import {provideProxyStore} from "./store";
+import {provideProxyStore, provideProcessesStore} from "./store";
 provideProxyStore([])
+provideProcessesStore(0)
 
 </script>

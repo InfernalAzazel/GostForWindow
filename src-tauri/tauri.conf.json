@@ -14,12 +14,28 @@
     "allowlist": {
       "all": false,
       "shell": {
-        "all": false,
-        "open": true
+        "all": true,
+        "execute": true,
+        "sidecar": true,
+        "open": true,
+        "scope": [
+          {
+            "name": "run-git-commit",
+            "cmd": "git",
+            "args": true
+          },
+          {
+            "name": "ping",
+            "cmd": "ping",
+            "args": true
+          }
+        ]
       },
       "fs": {
         "all": true,
-        "scope": ["$APPDATA/*"]
+        "scope": [
+          "$APPDATA/*"
+        ]
       },
       "path": {
         "all": true

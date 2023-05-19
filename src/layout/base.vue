@@ -4,19 +4,17 @@
             <p class="italic text-clip text-3xl text-blue-400">Gost</p>
             <div class="flex flex-row-reverse w-full">
                 <div class="flex items-center">
-                    <el-icon><component is="Star"></component></el-icon>关于
-                </div>
-                <div class="w-4"/>
-                <div class="flex items-center">
-                    <el-icon><component is="Setting"></component></el-icon>设置
+                    <el-button type="info" icon="Star" @click="openLink" link>关于</el-button>
                 </div>
             </div>
         </el-header>
         <el-main>
             <div class="flex flex-row-reverse">
-                <el-button type="primary">导入</el-button>
+                <el-button type="primary" @click="onClearLog">清空日志</el-button>
                 <div class="w-2"></div>
-                <el-button type="primary" @click="()=> visible = true">创建</el-button>
+                <el-button type="primary">导入配置</el-button>
+                <div class="w-2"></div>
+                <el-button type="primary" @click="()=> visible = true">创建服务</el-button>
             </div>
             <div class=" flex justify-center">
                 <el-radio-group v-model="radio">
@@ -57,9 +55,11 @@
 import {onMounted, reactive, ref} from 'vue'
 import {useRouter} from 'vue-router';
 import {FormInstance, FormRules} from "element-plus";
-import {useProxyStore} from "../store";
+import {useProxyStore, useProcessesStore} from "../store";
+import {shell} from "@tauri-apps/api";
 
 const {proxy, readProxy, writeProxy, initProxy } = useProxyStore()!
+const {outputs} = useProcessesStore()!
 const router = useRouter()
 const currentRoute = router.options.routes[0].redirect
 const children = router.options.routes[0].children
@@ -85,6 +85,10 @@ const onSelect = (value: string) => {
     router.push(value)
 }
 
+const onClearLog = () => {
+  outputs.value = []
+}
+
 const onCreateServer =  async (formEl: FormInstance | undefined) =>{
     if (!formEl) return
     await formEl.validate( async (valid, fields) => {
@@ -102,8 +106,12 @@ const onCreateServer =  async (formEl: FormInstance | undefined) =>{
     })
 
 }
+const openLink = () => {
+    shell.open('https://github.com/InfernalAzazel/GostForWindow')
+}
 onMounted(async ()=>{
     await initProxy()
+    console.log(proxy.value)
 })
 </script>
 <style scoped></style>
